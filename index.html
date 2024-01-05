@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Platzriv - Jueguito online de carreras y calaveras</title>
+</head>
+<body>
+  <div id="bye">
+    <img src="img/bye.png" alt="">
+  </div>
+  <div id="login">
+    <h1>La esquivadora de bombuchas 💣</h1>
+    <h3>Selecciona tu usuario o crea uno nuevo</h3>
+    <div id="usersList">
+    </div>
+    <button id="newUser">+</button>
+  </div>
+
+  <div class="reload">
+    <div class="reload_container">
+      <h1 id="reloadTitle">PERDISTE TODAS TUS VIDAS</h1>
+      <h3 id="reloadAsk">Quieres volver a intentar?</h3>
+      <div>
+        <button id="reloadYes">SI</button>
+        <button id="reloadNo">NO</button>
+      </div>
+    </div>
+    <p id="bestRecord"></p>
+    <p id="savedRecordReload"></p>
+  </div>
+
+  <div class="game-container">
+    <p id="levelText"></p>
+    <div id="gameTime">
+      <div id="actualTime_container">Tiempo: 
+        <p id="hours"></p>
+        <p id="minutes"></p>
+        <p id="seconds"></p>
+      </div>
+      <div id="record_container">Record:
+        <p id="savedRecordMain"></p>
+      </div>
+    </div>
+    <p id="userName"></p>
+    <canvas id="game"></canvas>
+    
+    <div class="btns">
+      <button id="up">Arriba</button>
+      <button id="left">Izquierda</button>
+      <button id="right">Derecha</button>
+      <button id="down">Abajo</button>
+    </div>
+
+    <div class="vidas">Vidas:
+    </div>
+  </div>
+
+  <script src="./maps.js"></script>
+  <script src="./game.js"></script>
+</body>
+</html>
