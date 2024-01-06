@@ -34,17 +34,19 @@
 
   <div class="game-container">
     <p id="levelText"></p>
-    <div id="gameTime">
-      <div id="actualTime_container">Tiempo: 
-        <p id="hours"></p>
-        <p id="minutes"></p>
-        <p id="seconds"></p>
+    <div class="top">
+      <div class="topLeft">
+        <div id="gameTime">
+          <p id="actualTime">Tiempo:</p>
+          <p id="savedRecordMain">Record:</p>
+        </div>
       </div>
-      <div id="record_container">Record:
-        <p id="savedRecordMain"></p>
+      <div class="topRight">
+        <p id="userName">Usuario:</p>
+        <div class="vidas">Vidas:</div>
       </div>
     </div>
-    <p id="userName"></p>
+
     <canvas id="game"></canvas>
     
     <div class="btns">
@@ -54,8 +56,6 @@
       <button id="down">Abajo</button>
     </div>
 
-    <div class="vidas">Vidas:
-    </div>
   </div>
 
   <script src="./maps.js"></script>

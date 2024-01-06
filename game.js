@@ -8,6 +8,7 @@ const btnRIGHT = document.querySelector('#right')
 
 const levelText = document.querySelector('#levelText')
 const playerNameDisplay = document.querySelector('#playerName')
+let userName = document.querySelector('#userName')
 const vidas = document.querySelector('.vidas')
 
 const bye = document.querySelector('#bye')
@@ -51,18 +52,12 @@ let playerName = ''
 let level = 1
 let lifes = 3
 
-let gameTime = document.querySelector('#gameTime')
-let gameHours = document.querySelector('#hours')
-let gameMinutes = document.querySelector('#minutes')
-let gameSeconds = document.querySelector('#seconds')
+let actualTime = document.querySelector('#actualTime')
 
 time = false
-seconds = 0
-minutes = 0
-hours = 0
-
-
-
+let seconds = '00'
+let minutes = '00'
+let hours = '00'
 
 let items = []
 for (item in localStorage) {
@@ -82,7 +77,6 @@ for (user of users) {
     playerName = user
     userSelector.addEventListener('click', enterGame)
 }
-
 
 let resizing = false
 
@@ -123,54 +117,32 @@ function setCanvasSize() {
 
 
 function timing() {
+    actualTime.innerText = 'Tiempo: ' + hours + ':' + minutes + ':' + seconds
     if (time) {
-//SECONDS
-    seconds ++
-    if (seconds < 10) {
-        gameSeconds.innerText = ':0' + seconds
-    }else{
-        gameSeconds.innerText = ':' + seconds
-        }
-//MINUTES
-    if (seconds == 60) {
-        gameSeconds.innerText = ':00'
-        seconds = 0
-        minutes ++
-        if (minutes < 10) {
-            gameMinutes.innerText = ':0' + minutes
-        }else{
-            gameMinutes.innerText = ':' + minutes
-            }
-        }
+        seconds ++
 
-    if (minutes < 10) {
-        gameMinutes.innerText = ':0' + minutes
-    }else{
-        gameMinutes.innerText = ':' + minutes
-        }
+        if (seconds <= 60) {
+            if (seconds < 10) {
+                seconds = '0' + seconds
+                }
+            if (seconds == 60) {
+                seconds = '0' + 0
+                if (minutes < 60) {
+                    minutes ++
+                    if (minutes < 10) {
+                        minutes = '0' + minutes
+                        }}
+                if (minutes == 60) {
+                    minutes = '0' + 0
+                    hours ++
+                    
+                    if (hours < 10) {
+                        hours = '0' + hours
+                    }}}}
+                
+        }}
+    let getTiming = setInterval(timing, 1000)
 
-//HOURS
-    if (minutes == 60) {
-        gameMinutes.innerText = ':00'
-        minutes = 0
-        hours ++
-        if (hours < 10) {
-            gameHours.innerText = '0' + hours
-        }else{
-            gameHours.innerText = hours
-            }
-        }
-
-    if (hours <=60) {
-        if (hours < 10) {
-            gameHours.innerText = '0' + hours
-        }else{
-            gameHours.innerText = hours
-            }
-        }
-    }}
-  
-let getTiming = setInterval(timing, 1000)
 
 function startGame() {
     game.width = '100 px';
@@ -178,55 +150,14 @@ function startGame() {
     game.textAlign = 'end'
 
     let mapa = maps[level-1]
+
+    userName.innerText = 'Usuario: ' + playerName
     levelText.innerText = 'Nivel ' + level
 
     let savedRecord = localStorage[playerName]
     let savedRecordMainDOM = document.querySelector('#savedRecordMain')
-    let savedRecordReloadDOM = document.querySelector('#savedRecordMain')
-
-    if(savedRecord) {
-        savedRecordMainDOM.innerText = savedRecord
-        console.log(savedRecord)
-    }
-
-    if (level > maps.length) {
-        let newScore = gameHours.innerText + gameMinutes.innerText + gameSeconds.innerText
-        newScoreDOM = document.querySelector('#bestRecord')
-        levelText.innerText = 'Nivel ' + maps.length
-
-        let newScoreSimplificado = newScore.replace(/\n  /g, "")
-        let savedRecordSimplificado = function() {
-            if(savedRecord) {
-                savedRecordSimplificado = savedRecord.replace(/\n  /g, "");
-                console.log(savedRecordSimplificado)
-            }}
-            savedRecordSimplificado()
-        if(!savedRecord){ 
-            savedRecordDOM.innerText = '-'
-            localStorage.setItem(playerName, newScore)
-            newScoreDOM.innerText = 'Has guardado un nuevo record: ' + newScore
-            }
-        else if (savedRecordSimplificado > newScoreSimplificado) {
-            newScoreDOM.innerText = 'Has guardado un nuevo record: ' + newScore
-            savedRecordReloadDOM.innerText = 'Tu record anterior fue: ' + savedRecord
-
-            localStorage.setItem(playerName,newScore)
-            }
-        else if(savedRecordSimplificado <= newScoreSimplificado) {
-            console.log('No has batido tu record de ' + localStorage[playerName] )
-            newScoreDOM.innerText = 'No has guardado un nuevo record'
-            savedRecordReloadDOM.innerText = 'Tu mejor record fue: ' + savedRecord
-            }
-        reload.style.display = 'flex'
-        reloadTitle.innerText = 'Felicitaciones, completaste todos los niveles!'
-        reloadTitle.style.fontSize = '24px'
-        reloadYes.addEventListener('click', reloadGame)
-        reloadNo.addEventListener('click', goodBye)
-        setTimeout(function() {
-            time = false
-            console.log('tiempo frenado')
-        },1)}
-        
+    let savedRecordReloadDOM = document.querySelector('#savedRecordReload')
+    savedRecordMainDOM.innerText = 'Record: ' + savedRecord 
 
     const allLifes = document.querySelectorAll('.life')//Agrupa los corazones
     allLifes.forEach(result => {//Elimina cada corazon
@@ -290,7 +221,8 @@ function startGame() {
             //console.log(mapaSimplificado)
 
         }
-        }   
+        }
+        // SI PLAYER PIERDE
         if (playerPos.item === 'X') {
             lifes --
             setTimeout(function() {
@@ -319,6 +251,7 @@ function startGame() {
 
             }, 1000);
             }
+        // SI PLAYER GANA
         if (playerPos.item === 'I') {
             var mapaSimplificado = mapaSimplificado.substring(0, [playerPos.binaryY] + playerPos.binaryX) + '-' + mapaSimplificado.substring([playerPos.binaryY] + playerPos.binaryX + 1);
             setTimeout(function() {
@@ -327,6 +260,52 @@ function startGame() {
             if (level <= maps.length) {
                 level += 1
                 }
+            if (level > maps.length) {
+                reload.style.display = 'flex'
+                reloadYes.addEventListener('click', reloadGame)
+                reloadNo.addEventListener('click', goodBye)
+                time = false
+                let newScore =  hours + ':' + minutes + ':' + seconds
+                newScoreDOM = document.querySelector('#bestRecord')
+                levelText.innerText = 'Nivel ' + maps.length
+        
+       
+            
+                if(savedRecord) {
+                    }       
+
+                let newScoreSimplificado = newScore.replace(/\n  /g, "")
+                let savedRecordSimplificado = function() {
+                    if(savedRecord) {
+                        savedRecordSimplificado = savedRecord.replace(/\n  /g, "");
+                        console.log(savedRecordSimplificado)
+                    }}
+                    savedRecordSimplificado()
+                if(!savedRecord){ 
+                    savedRecordDOM.innerText = '-'
+                    localStorage.setItem(playerName, newScore)
+                    newScoreDOM.innerText = 'Has guardado un nuevo record: ' + newScore
+                    }
+                else if (savedRecordSimplificado > newScoreSimplificado) {
+                    newScoreDOM.innerText = 'Has guardado un nuevo record: ' + newScore
+                    savedRecordReloadDOM.innerText = 'Tu record anterior fue: ' + savedRecord
+        
+                    localStorage.setItem(playerName,newScore)
+                    }
+                else if(savedRecordSimplificado <= newScoreSimplificado) {
+                    console.log('No has batido tu record de ' + localStorage[playerName] )
+                    newScoreDOM.innerText = 'No has guardado un nuevo record'
+                    savedRecordReloadDOM.innerText = 'Tu mejor record fue: ' + savedRecord
+                    }
+                reload.style.display = 'flex'
+                reloadTitle.innerText = 'Felicitaciones, completaste todos los niveles!'
+                reloadTitle.style.fontSize = '24px'
+                reloadYes.addEventListener('click', reloadGame)
+                reloadNo.addEventListener('click', goodBye)
+                setTimeout(function() {
+                    time = false
+                    console.log('tiempo frenado')
+                },1)}
             startGame()
             }, 1000);
             }
@@ -409,9 +388,9 @@ function reloadGame(event) {
     reload.style.display = 'none'
     level = 1
     lifes = 3
-    seconds = 0
-    minutes = 0
-    hours = 0
+    seconds = '00'
+    minutes = '00'
+    hours = '00'
     time = true
     startGame()
     }
