@@ -85,9 +85,9 @@ body {
     }
   .game-container .top {
     display: flex;
-    width: 70vh;
     font-size: 20px;
     line-height: 0px;
+    margin-bottom: 20px;
     z-index: 20;
     }
 
@@ -95,9 +95,7 @@ body {
     display: flex;
     flex-direction: column;
     text-align: left;
-    width: 35vh;
     align-items: start;
-    gap: 2px;
     }
     #gameTime #actualTime_container, #record_container {
       display: flex;
@@ -108,7 +106,6 @@ body {
   .topRight {
     display: flex;
     flex-direction: column;
-    width: 35vh;
     }
     .topRight #userName {
       display: flex;

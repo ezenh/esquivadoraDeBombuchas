@@ -97,6 +97,7 @@ function resizeCheck () {
 function setCanvasSize() {
     if (window.innerHeight > window.innerWidth) {
         canvasSize = window.innerWidth * 0.7
+
     } else {
         canvasSize = window.innerHeight * 0.7
         }
